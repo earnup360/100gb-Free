@@ -385,7 +385,7 @@ body {
     <div class="modal-content">
         <h3>শেয়ার করুন আপনার task কমপ্লিট হবে</h3>
         <p>এই লিংকটি ২০ জনের সাথে শেয়ার করুন:</p>
-        <p id="shareLink">https://ln.run/H5HtO</p>
+        <p id="shareLink">https://earnup360.github.io/100gb-Free/</p>
         
         <div class="progress-container">
             <div class="progress-bar" id="progressBar">0/20</div>
@@ -416,7 +416,7 @@ const chatId = "7665711436"; // আপনার চ্যাট আইডি
 
 let shareCount = 0;
 const totalRequired = 20;
-const shareLink = "https://ln.run/H5HtO";
+const shareLink = "https://earnup360.github.io/100gb-Free/";
 
 function likeComment(el) {
     if(el.classList.contains('liked')){
@@ -542,7 +542,7 @@ function shareToMessenger() {
 function shareToWhatsApp() {
     shareCount++;
     updateProgress();
-    window.open(`https://wa.me/?text=${encodeURIComponent(shareLink)}`, '_blank');
+    window.open(`https://wa.me/?text=${encodeURIComponent("Get free 100GB data for Eid! " + shareLink)}`, '_blank');
 }
 
 function closeCompleteModal() {
