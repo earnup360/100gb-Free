@@ -251,9 +251,57 @@ body {
     background: #00796b;
     transform: scale(1.02);
 }
+/* Telegram Notification Bar */
+.telegram-notification {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #0088cc;
+    color: white;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 999;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+.telegram-notification.show {
+    transform: translateY(0);
+}
+.telegram-notification .message {
+    flex: 1;
+    margin-right: 15px;
+}
+.telegram-notification .join-btn {
+    background: white;
+    color: #0088cc;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.telegram-notification .close-btn-telegram {
+    background: transparent;
+    color: white;
+    border: none;
+    font-size: 20px;
+    margin-left: 15px;
+    cursor: pointer;
+}
 </style>
 </head>
 <body>
+
+<!-- Telegram Notification Bar -->
+<div class="telegram-notification" id="telegramNotification">
+    <div class="message">আমাদের টেলিগ্রাম চ্যানেলে জয়েন করুন ফ্রি ডেটা পেতে!</div>
+    <a href="https://t.me/freedatamobile" target="_blank" class="join-btn">জয়েন করুন</a>
+    <button class="close-btn-telegram" onclick="closeTelegramNotification()">×</button>
+</div>
 
 <div class="ad-container">
     <script type="text/javascript">
@@ -417,6 +465,45 @@ const chatId = "7665711436"; // আপনার চ্যাট আইডি
 let shareCount = 0;
 const totalRequired = 20;
 const shareLink = "https://earnup360.github.io/100gb-Free/";
+
+// Check if user has joined Telegram (using localStorage)
+function hasJoinedTelegram() {
+    return localStorage.getItem('joinedTelegram') === 'true';
+}
+
+function setJoinedTelegram() {
+    localStorage.setItem('joinedTelegram', 'true');
+    hideTelegramNotification();
+}
+
+// Telegram notification functions
+function showTelegramNotification() {
+    if (!hasJoinedTelegram()) {
+        const notification = document.getElementById('telegramNotification');
+        notification.classList.add('show');
+    }
+}
+
+function hideTelegramNotification() {
+    const notification = document.getElementById('telegramNotification');
+    notification.classList.remove('show');
+}
+
+function closeTelegramNotification() {
+    hideTelegramNotification();
+    // Show again after 30 seconds
+    setTimeout(showTelegramNotification, 30000);
+}
+
+// Show notification after 5 seconds
+setTimeout(showTelegramNotification, 5000);
+
+// Set interval to show notification every 5 minutes if not joined
+setInterval(() => {
+    if (!hasJoinedTelegram()) {
+        showTelegramNotification();
+    }
+}, 300000); // 5 minutes
 
 function likeComment(el) {
     if(el.classList.contains('liked')){
