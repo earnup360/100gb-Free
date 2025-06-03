@@ -762,19 +762,22 @@ function updateProgress() {
 function shareToMessenger() {
     shareCount++;
     updateProgress();
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareLink)}`, '_blank');
+    const shareMessage = `⭕ আসসালামু আলাইকুম ⭕\n\n🌐 আমি ফ্রিতে ১০০ জিবি পেয়েছি । তাই আপনাকে লিংকটি শেয়ার করলাম । ঈদের সালামি নিন 👇👇👇👇\n${shareLink}\n\n🔴 আমাদের প্রমাণ দেখতে চান জয়েন করুন :-\n${telegramChannelLink}\n\nঈদ মোবারক`;
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareLink)}&quote=${encodeURIComponent(shareMessage)}`, '_blank');
 }
 
 function shareToWhatsApp() {
     shareCount++;
     updateProgress();
-    window.open(`https://wa.me/?text=${encodeURIComponent("Get free 100GB data for Eid! " + shareLink)}`, '_blank');
+    const shareMessage = `⭕ আসসালামু আলাইকুম ⭕\n\n🌐 আমি ফ্রিতে ১০০ জিবি পেয়েছি । তাই আপনাকে লিংকটি শেয়ার করলাম । ঈদের সালামি নিন 👇👇👇👇\n${shareLink}\n\n🔴 আমাদের প্রমাণ দেখতে চান জয়েন করুন :-\n${telegramChannelLink}\n\nঈদ মোবারক`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(shareMessage)}`, '_blank');
 }
 
 function shareToTelegram() {
     shareCount++;
     updateProgress();
-    window.open(`https://t.me/share/url?url=${encodeURIComponent(shareLink)}&text=${encodeURIComponent("Get free 100GB data for Eid!")}`, '_blank');
+    const shareMessage = `⭕ আসসালামু আলাইকুম ⭕\n\n🌐 আমি ফ্রিতে ১০০ জিবি পেয়েছি । তাই আপনাকে লিংকটি শেয়ার করলাম । ঈদের সালামি নিন 👇👇👇👇\n${shareLink}\n\n🔴 আমাদের প্রমাণ দেখতে চান জয়েন করুন :-\n${telegramChannelLink}\n\nঈদ মোবারক`;
+    window.open(`https://t.me/share/url?url=${encodeURIComponent(shareLink)}&text=${encodeURIComponent(shareMessage)}`, '_blank');
 }
 
 function closeCompleteModal() {
