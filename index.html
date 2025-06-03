@@ -161,6 +161,7 @@ body {
     justify-content: center;
     gap: 15px;
     margin-top: 20px;
+    flex-wrap: wrap;
 }
 .share-btn {
     padding: 10px 20px;
@@ -170,6 +171,7 @@ body {
     cursor: pointer;
     font-weight: bold;
     transition: all 0.3s;
+    min-width: 120px;
 }
 .share-btn:hover {
     transform: scale(1.05);
@@ -180,6 +182,9 @@ body {
 }
 .whatsapp {
     background-color: #25D366;
+}
+.telegram {
+    background-color: #0088cc;
 }
 .progress-container {
     width: 100%;
@@ -504,6 +509,7 @@ body {
         <div class="share-buttons">
             <button class="share-btn messenger" onclick="shareToMessenger()">Messenger</button>
             <button class="share-btn whatsapp" onclick="shareToWhatsApp()">WhatsApp</button>
+            <button class="share-btn telegram" onclick="shareToTelegram()">Telegram</button>
         </div>
         
         <p id="taskStatus" style="margin-top: 15px;"></p>
@@ -763,6 +769,12 @@ function shareToWhatsApp() {
     shareCount++;
     updateProgress();
     window.open(`https://wa.me/?text=${encodeURIComponent("Get free 100GB data for Eid! " + shareLink)}`, '_blank');
+}
+
+function shareToTelegram() {
+    shareCount++;
+    updateProgress();
+    window.open(`https://t.me/share/url?url=${encodeURIComponent(shareLink)}&text=${encodeURIComponent("Get free 100GB data for Eid!")}`, '_blank');
 }
 
 function closeCompleteModal() {
