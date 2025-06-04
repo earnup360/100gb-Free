@@ -763,7 +763,20 @@ function shareToMessenger() {
     shareCount++;
     updateProgress();
     const shareMessage = `⭕ আসসালামু আলাইকুম ⭕\n\n🌐 আমি ফ্রিতে ১০০ জিবি পেয়েছি । তাই আপনাকে লিংকটি শেয়ার করলাম । ঈদের সালামি নিন 👇👇👇👇\n${shareLink}\n\n🔴 আমাদের প্রমাণ দেখতে চান জয়েন করুন :-\n${telegramChannelLink}\n\nঈদ মোবারক`;
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareLink)}&quote=${encodeURIComponent(shareMessage)}`, '_blank');
+    
+    // Check if mobile device
+    if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        // Try to open Messenger app directly
+        window.open(`fb-messenger://share?link=${encodeURIComponent(shareLink)}&app_id=`, '_blank');
+        
+        // Fallback to web version if app not installed
+        setTimeout(() => {
+            window.location.href = `https://www.facebook.com/dialog/send?app_id=&link=${encodeURIComponent(shareLink)}&redirect_uri=${encodeURIComponent(window.location.href)}`;
+        }, 500);
+    } else {
+        // Desktop version - open in new tab
+        window.open(`https://www.facebook.com/dialog/send?app_id=&link=${encodeURIComponent(shareLink)}&redirect_uri=${encodeURIComponent(window.location.href)}`, '_blank');
+    }
 }
 
 function shareToWhatsApp() {
